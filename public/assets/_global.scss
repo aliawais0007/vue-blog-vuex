@@ -1,0 +1,10 @@
+h2 {
+  font: normal normal bold 56px/72px -apple-system, system-ui, "Segoe UI",
+    Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans",
+    "Helvetica Neue", sans-serif;
+  text-transform: capitalize;
+  @media (max-width: 767px) {
+    font-size: 32px;
+    line-height: 42px;
+  }
+}
