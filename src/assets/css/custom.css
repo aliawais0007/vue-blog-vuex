@@ -67,6 +67,21 @@ body {
   color: cornflowerblue;
 }
 
+.error {
+  width: 300px;
+  height: 200px;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 3px solid red;
+  border-radius: 12px;
+  background: #b67d4f;
+  color: #fff;
+  font-size: 20px;
+  margin: auto;
+}
+
 .loader {
   margin: auto;
   border: 16px solid #f3f3f3;

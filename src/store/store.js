@@ -7,7 +7,9 @@ export const store = createStore({
             filteredPosts: [],
             totalPages: 0,
             page: 1,
-            currPost: {}
+            currPost: {},
+            isLoading: true,
+            error: {}
         }
     },
     mutations: {
@@ -23,6 +25,30 @@ export const store = createStore({
         },
         postById: function (state, payload) {
             state.currPost = payload;
+        },
+        handleError: function (state, payload) {
+            state.error = payload
+        }
+    },
+    actions: {
+        addAsyncPosts: async function (context) {
+            const handleResponse = async function (response) {
+                if (response.status === 200) return await response.json();
+                else {
+                    if (response.status === 404) throw { "error": "API not found" }
+                    else throw await response.json();
+                }
+            }
+
+            try {
+                const response = await fetch("https://jsonplaceholder.typicode.com/posts", { method: "get" })
+                const myData = await handleResponse(response);
+                context.commit("addPosts", myData);
+            }
+            catch (error) {
+                context.commit("handleError", error)
+            }
+
         }
     }
 })

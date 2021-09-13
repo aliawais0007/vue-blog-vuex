@@ -1,10 +1,6 @@
 <template>
-  <div class="card-wrapper" v-if="!loading">
-    <Card
-      v-for="post in filteredPosts"
-      :key="post && post.id"
-      v-bind:myPost="post"
-    />
+  <div class="card-wrapper" v-if="filteredPosts && filteredPosts.length">
+    <Card v-for="post in filteredPosts" :key="post && post.id" :myPost="post" />
   </div>
   <div v-else class="loader"></div>
 
@@ -20,40 +16,29 @@
 
 <script async>
 import Card from "./Card";
-import { mapState, mapMutations } from "vuex";
+import { mapState, mapMutations, mapActions } from "vuex";
 
 export default {
   name: "Blog",
-  data: function () {
-    return {
-      loading: true,
-    };
-  },
   components: {
     Card,
   },
   mounted: function () {
-    fetch("https://jsonplaceholder.typicode.com/posts", { method: "get" })
-      .then((response) => this.responseHandler(response))
-      .then((myData) => {
-        this.addPosts(myData);
-        this.loading = false;
-      })
-      .catch((err) => {
-        console.log(err);
-        this.loading = false;
-      });
+    this.addAsyncPosts();
   },
   computed: {
-    ...mapState(["posts", "page", "totalPages", "filteredPosts"]),
+    ...mapState(["posts", "page", "totalPages", "filteredPosts", "error"]),
+  },
+  watch: {
+    error(newValue) {
+      if (Object.keys(newValue).length > 0) {
+        alert(newValue.error);
+      }
+    },
   },
   methods: {
-    ...mapMutations(["addPosts", "paginatedPosts"]),
-    responseHandler: async function (response) {
-      if (response.status === 200) {
-        return await response.json();
-      } else throw await response.json();
-    },
+    ...mapMutations(["paginatedPosts"]),
+    ...mapActions(["addAsyncPosts"]),
   },
 };
 </script>
