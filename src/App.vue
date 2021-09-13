@@ -3,3 +3,6 @@
   <router-view />
 </template>
 
+<script>
+</script>
+

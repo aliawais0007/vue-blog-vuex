@@ -1,22 +1,22 @@
 <template>
   <div v-if="!loading" class="post__detail-wrapper">
     <h1>
-      {{ post.id }}
+      {{ currPost.id }}
     </h1>
-    <h2>{{ post.title }}</h2>
+    <h2>{{ currPost.title }}</h2>
     <p>
-      {{ post.body }}
+      {{ currPost.body }}
     </p>
   </div>
   <div v-else class="loader"></div>
 </template>
 
 <script>
+import { mapState, mapMutations } from "vuex";
 export default {
   name: "BlogDetail",
   data: function () {
     return {
-      post: {},
       loading: true,
     };
   },
@@ -28,13 +28,19 @@ export default {
         else throw response.json();
       })
       .then((data) => {
-        this.post = data;
+        this.postById(data);
         this.loading = false;
       })
       .catch((error) => {
         console.error(error);
         this.loading = false;
       });
+  },
+  computed: {
+    ...mapState(["currPost"]),
+  },
+  methods: {
+    ...mapMutations(["postById"]),
   },
 };
 </script>
