@@ -7,6 +7,7 @@
   <div class="pagination">
     <span
       v-for="index in totalPages"
+      :class="activeIndex && index === this.activeIndex && 'active'"
       :key="index"
       @click="paginatedPosts(index)"
       >{{ index }}</span
@@ -25,9 +26,17 @@ export default {
   },
   mounted: function () {
     this.addAsyncPosts();
+    this.$route.params = { page: 1 }
   },
   computed: {
-    ...mapState(["posts", "page", "totalPages", "filteredPosts", "error"]),
+    ...mapState([
+      "posts",
+      "page",
+      "totalPages",
+      "filteredPosts",
+      "error",
+      "activeIndex",
+    ]),
   },
   watch: {
     error(newValue) {

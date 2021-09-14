@@ -16,10 +16,15 @@ body {
   color: #fff;
   cursor: pointer;
   .blog-card {
-    width: calc(50% - 70px);
-    padding: 20px;
+    width: calc(33.33% - 30px);
     margin: 15px;
     background: cornflowerblue;
+    @media (max-width: 991px) {
+      width: calc(33.33% - 70px);
+    }
+    .card-content{
+      margin: 20px;
+    }
   }
 }
 
@@ -60,26 +65,15 @@ body {
     justify-content: center;
     align-items: center;
     margin-left: -1px;
+    &.active {
+      background: cornsilk;
+      color: cornflowerblue;
+    }
     &:hover {
       background: cornsilk;
       color: cornflowerblue;
     }
   }
-}
-
-.error {
-  width: 300px;
-  height: 200px;
-  padding: 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: 3px solid red;
-  border-radius: 12px;
-  background: rgb(182, 125, 79);
-  color: #fff;
-  font-size: 20px;
-  margin: auto;
 }
 
 .loader {

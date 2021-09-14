@@ -9,7 +9,8 @@ export const store = createStore({
             page: 1,
             currPost: {},
             isLoading: true,
-            error: {}
+            error: {},
+            activeIndex: 1
         }
     },
     mutations: {
@@ -17,11 +18,13 @@ export const store = createStore({
             state.posts = payload;
             state.filteredPosts = payload.slice(0, 10);
             state.totalPages = payload.length / 10;
+            state.activeIndex = 1
         },
         paginatedPosts: function (state, payload) {
             let endIndex = payload * 10;
             let startIndex = endIndex - 10;
             state.filteredPosts = state.posts.slice(startIndex, endIndex);
+            state.activeIndex = payload;
         },
         postById: function (state, payload) {
             state.currPost = payload;
@@ -39,16 +42,16 @@ export const store = createStore({
                     else throw await response.json();
                 }
             }
-
-            try {
-                const response = await fetch("https://jsonplaceholder.typicode.com/posts", { method: "get" })
-                const myData = await handleResponse(response);
-                context.commit("addPosts", myData);
+            if (!context.state.posts) {
+                try {
+                    const response = await fetch("https://jsonplaceholder.typicode.com/posts", { method: "get" })
+                    const myData = await handleResponse(response);
+                    context.commit("addPosts", myData);
+                }
+                catch (error) {
+                    context.commit("handleError", error)
+                }
             }
-            catch (error) {
-                context.commit("handleError", error)
-            }
-
         }
     }
 })
